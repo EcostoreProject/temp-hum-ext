@@ -1,3 +1,4 @@
+// protocole.cpp : utilise la bibliothèque FrameProtocol du dépôt Ecostore-Zigbee
 #include "protocole.h"
 #include "config.h"
 #include "liaison_xbee.h"
@@ -28,6 +29,8 @@ static void envoyerReponse(uint8_t emet, FrameCmd_t cmd, uint8_t valeur) {
     Serial.print(' ');
   }
   Serial.println();
+
+  if (!DESTINATION_BROADCAST) liaisonDefinirMY(emet==ID_TEMP ? MY_HUMID : MY_TEMP);
 }
 
 // Envoyer une valeur
@@ -38,6 +41,9 @@ void envoyerMesure(uint8_t id) {
   if (id == ID_TEMP)        ok = mesurerTemp(valeur);
   else if (id == ID_HUMID)  ok = mesurerHumid(valeur);
   else return;              // ID inconnu
+
+  // La mesure part avec le MY qui correspond à son type (1005 température, 1006 humidité)
+  liaisonDefinirMY(id == ID_TEMP ? MY_TEMP : MY_HUMID);
 
   if (ok) envoyerReponse(id, FRAME_CMD_WRITE, valeur);
   else    envoyerReponse(id, FRAME_CMD_ERROR, VAL_ERREUR);

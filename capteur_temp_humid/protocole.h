@@ -1,3 +1,4 @@
+// protocole.h : échange de trames avec le hub (bibliothèque FrameProtocol)
 #pragma once
 
 #include <Arduino.h>

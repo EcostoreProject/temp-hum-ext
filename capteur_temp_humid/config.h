@@ -20,8 +20,10 @@ const uint8_t ID_HUMID = 0b110;
 const uint8_t VAL_ERREUR = 0xFF;
 
 // Destination
-const uint32_t DEST_SH = 0x0013A200;
-const uint32_t DEST_SL = 0x40D8C1F5;
+// Adresses 16 bits (registre MY des XBee), en hexadécimal
+const uint16_t DEST_MY  = 0x1000;   // MY du XBee du hub
+const uint16_t MY_TEMP  = 0x1005;   // MY du capteur quand il envoie la température
+const uint16_t MY_HUMID = 0x1006;   // MY du capteur quand il envoie l'humidité
 const bool DESTINATION_BROADCAST = false;
 
 // Délais d'envoi sans requète

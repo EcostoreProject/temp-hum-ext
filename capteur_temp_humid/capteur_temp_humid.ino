@@ -15,6 +15,6 @@ void setup() {
 
 void loop() {
   lireRequete();
-  envoiSpontane();
+  //envoiSpontane();
   lcdMettreAJour();
 }

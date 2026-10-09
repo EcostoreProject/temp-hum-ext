@@ -1,3 +1,4 @@
+// lcd.cpp : écran LCD I2C 16x2 (bibliothèque LiquidCrystal_I2C)
 #include "lcd.h"
 #include "config.h"
 #include "mesures.h"
@@ -19,7 +20,7 @@ static void creerBarres() {
   }
 }
 
-// Dessine la barre de progression sur la 2e ligne
+// Dessine la barre de progression sur la 2e ligne (5 pas par colonne)
 static void dessinerBarre(int pas) {
   lcd.setCursor(0, 1);
   for (int c = 0; c < LCD_COLONNES; c++) {
@@ -55,7 +56,9 @@ void lcdInit() {
   dernierPas = -1;
 }
 
-// Met à jour la barre et les mesures
+// Version non bloquante : la barre se remplit pendant LCD_PERIODE_MS,
+// puis les mesures sont rafraîchies et le cycle recommence.
+// loop() peut donc continuer à lire les requêtes du hub entre-temps.
 void lcdMettreAJour() {
   const int total = LCD_COLONNES * 5;
   unsigned long ecoule = millis() - debutCycle;
